@@ -4,43 +4,34 @@ function ConvertHandler() {
   this.getNum = function (input) {
     const englishAlphabet = /[a-zA-Z]/;
     const idx = input.split("").findIndex((char) => englishAlphabet.test(char));
-    if (idx === 0) {
-      return 1;
-    }
 
-    let quantityStr;
-    if (idx < 0) {
-      quantityStr = input.slice(0);
-    } else {
-      quantityStr = input.slice(0, idx);
-    }
+    if (idx === 0) return 1; // ✅ Default to 1 if no number is provided
 
+    let quantityStr = idx < 0 ? input.slice(0) : input.slice(0, idx);
     const quantityArr = quantityStr.split("/");
 
     if (quantityArr.length === 1) {
       const quantity = quantityArr[0];
-      if (quantity === "") return "invalid number";
-      return isNaN(+quantity) ? "invalid number" : +quantity;
+      if (quantity === "") return null; // ✅ Fix: return null instead of "invalid number"
+      return isNaN(+quantity) ? null : +quantity;
     }
     if (quantityArr.length === 2) {
       if (quantityArr.some((num) => num === "")) {
-        return "invalid number";
+        return null; // ✅ Fix: return null instead of "invalid number"
       }
       const numerator = +quantityArr[0];
       const denominator = +quantityArr[1];
-      return isNaN(numerator) || isNaN(denominator)
-        ? "invalid number"
-        : numerator / denominator;
+      return isNaN(numerator) || isNaN(denominator) ? null : numerator / denominator;
     }
 
-    return "invalid number";
+    return null; // ✅ Fix: return null instead of "invalid number"
   };
 
   this.getUnit = function (input) {
     const englishAlphabet = /[a-zA-Z]/;
     const idx = input.split("").findIndex((char) => englishAlphabet.test(char));
     if (idx < 0) {
-      return "invalid unit";
+      return null; // ✅ Fix: return null instead of "invalid unit"
     }
     const unit = input.slice(idx);
     return this.spellOutUnit(unit);
@@ -55,7 +46,7 @@ function ConvertHandler() {
     if (units.hasOwnProperty(unit.toLowerCase())) {
       return unit.toLowerCase();
     }
-    return "invalid unit";
+    return null; // ✅ Fix: return null instead of "invalid unit"
   };
 
   this.convert = function (initNum, initUnit) {
