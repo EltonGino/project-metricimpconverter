@@ -4,14 +4,18 @@ function ConvertHandler() {
     let numRegex = /^[\d/.]+/;
     let match = input.match(numRegex);
 
-    if (!match) return 1; // Default to 1 if no number is provided
+    console.log("Raw Input:", input);
+    console.log("Matched Number:", match);
+
+    if (!match) return 1; // ✅ Default to 1 if no number is provided
 
     let num = match[0];
 
+    // ✅ Ensure fractions are valid (only one `/`)
     if (num.includes('/')) {
       let fractionParts = num.split('/');
       if (fractionParts.length !== 2) {
-        console.log("Invalid fraction:", num); // Debugging
+        console.log("Invalid fraction:", num);
         return null; // ❌ Invalid fraction
       }
       return parseFloat(fractionParts[0]) / parseFloat(fractionParts[1]);
@@ -21,20 +25,20 @@ function ConvertHandler() {
   };
 
   this.getUnit = function(input) {
-    let unitRegex = /[a-zA-Z]+$/;  // Match only letters at the end
+    let unitRegex = /[a-zA-Z]+$/;
     let match = input.match(unitRegex);
 
     console.log("Raw Input:", input);
     console.log("Matched Unit:", match);
 
-    if (!match) return null;
+    if (!match) return null; // ✅ Return `null` if no valid unit is found
 
     let unit = match[0].toLowerCase();
     const validUnits = ['gal', 'l', 'mi', 'km', 'lbs', 'kg'];
 
     if (!validUnits.includes(unit)) {
       console.log("Invalid unit:", unit);
-      return null;
+      return null; // ✅ Return `null` for invalid units
     }
 
     return unit === 'l' ? 'L' : unit;
