@@ -7,27 +7,23 @@ const convertHandler = new ConvertHandler();
 router.get('/convert', (req, res) => {
   const input = req.query.input;
 
-  // ✅ Ensure we check for missing input
   if (!input) {
-    return res.json({ error: 'invalid number and unit' });
+    return res.json({ error: 'invalid number and unit' }); // ✅ Matches freeCodeCamp format
   }
 
-  // ✅ Extract number and unit from input
   const initNum = convertHandler.getNum(input);
   const initUnit = convertHandler.getUnit(input);
 
-  // ✅ Handle invalid cases with correct error messages
   if (initNum === null && initUnit === null) {
-    return res.json({ error: 'invalid number and unit' }); // ❌ Avoid { status: 'unavailable' }
+    return res.json({ error: 'invalid number and unit' }); // ✅ EXACT expected response
   }
   if (initNum === null) {
-    return res.json({ error: 'invalid number' });
+    return res.json({ error: 'invalid number' }); // ✅ EXACT expected response
   }
   if (initUnit === null) {
-    return res.json({ error: 'invalid unit' });
+    return res.json({ error: 'invalid unit' }); // ✅ EXACT expected response
   }
 
-  // ✅ Convert valid input
   const returnUnit = convertHandler.getReturnUnit(initUnit);
   const returnNum = convertHandler.convert(initNum, initUnit);
   const string = convertHandler.getString(initNum, initUnit, returnNum, returnUnit);
