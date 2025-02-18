@@ -1,3 +1,9 @@
+const express = require('express'); // ✅ Import Express
+const router = express.Router(); // ✅ Initialize the Router
+const ConvertHandler = require('../controllers/convertHandler');
+
+const convertHandler = new ConvertHandler();
+
 router.get('/convert', (req, res) => {
   const input = req.query.input;
   if (!input) return res.json({ error: 'invalid number and unit' });
@@ -21,3 +27,5 @@ router.get('/convert', (req, res) => {
 
   res.json({ initNum, initUnit, returnNum, returnUnit, string });
 });
+
+module.exports = router; // ✅ Ensure you're exporting `router`
